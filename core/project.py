@@ -19,6 +19,7 @@ class Project:
     DEFAULT_SUBMISSIONS = "submissions"
     DEFAULT_TEMPLATES = "templates"
     DEFAULT_LOGS = "logs"
+    DEFAULT_MOSS_OUTPUT = "moss.json"
     FIELD_PROJECT_NAME = "project_name"
     FIELD_COURSE_ID = "course_id"
     FIELD_COURSE_TITLE = "course_title"
@@ -189,7 +190,7 @@ class Project:
                     zip_ref.extractall(Project.DEFAULT_TEMPLATES)
                 if (os.path.exists(NAME + ".zip")): os.remove(NAME + ".zip")
 
-    def upload_to_moss(self, blacklist=None):
+    def upload_to_moss(self, blacklist=None, filename=Project.DEFAULT_MOSS_OUTPUT):
         now = datetime.datetime.now()
         timestamp = f"{str(now.date())}-{str(now.time().hour)}-{str(now.time().minute)}-{str(now.time().second)}"
         submissions = os.listdir(Project.DEFAULT_SUBMISSIONS)
@@ -217,4 +218,4 @@ class Project:
                     moss_links[submission] = moss_link
                     print(moss_link + "\n")
 
-        return cooljson.write_json("moss.json", moss_links)
+        return cooljson.write_json(filename, moss_links)
